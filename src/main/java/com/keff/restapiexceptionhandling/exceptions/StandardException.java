@@ -4,7 +4,7 @@ import java.util.List;
 
 public class StandardException {
 
-    private List<String> messages;
+    private final List<String> messages;
 
     public StandardException(List<String> messages) {
         this.messages = messages;

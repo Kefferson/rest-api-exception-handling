@@ -3,8 +3,7 @@ package com.keff.restapiexceptionhandling.controllers;
 import com.keff.restapiexceptionhandling.dtos.AddressRequestDTO;
 import com.keff.restapiexceptionhandling.dtos.AddressResponseDTO;
 import com.keff.restapiexceptionhandling.entities.Address;
-import com.keff.restapiexceptionhandling.repositories.AddressRepository;
-import com.keff.restapiexceptionhandling.repositories.UserRepository;
+import com.keff.restapiexceptionhandling.services.AddressService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -19,15 +18,12 @@ import java.util.stream.Collectors;
 public class AddressController {
 
     @Autowired
-    public AddressRepository addressRepository;
-    @Autowired
-    public UserRepository userRepository;
+    public AddressService addressService;
 
     @PostMapping("/add")
     public ResponseEntity<?> addAddress(@RequestBody @Valid AddressRequestDTO dto) {
 
-        Address address = dto.toEntity(userRepository);
-        addressRepository.save(address);
+        Address address = addressService.saveAddress(dto);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(address.toResponse());
     }
@@ -35,7 +31,7 @@ public class AddressController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<?> listAdresses(@PathVariable Long userId) {
 
-        List<Address> addressList = addressRepository.findByUserId(userId);
+        List<Address> addressList = addressService.findAddressList(userId);
 
         if (addressList.isEmpty()) {
             return ResponseEntity.ok().body("There are no addresses registered by this user.");
