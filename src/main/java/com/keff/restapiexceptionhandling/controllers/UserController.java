@@ -1,9 +1,11 @@
 package com.keff.restapiexceptionhandling.controllers;
 
-import com.keff.restapiexceptionhandling.dtos.UserDTO;
+import com.keff.restapiexceptionhandling.dtos.UserRequestDTO;
 import com.keff.restapiexceptionhandling.entities.User;
 import com.keff.restapiexceptionhandling.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,11 +21,11 @@ public class UserController {
     private UserRepository userRepository;
 
     @PostMapping("/create")
-    public String createUser(@RequestBody @Valid UserDTO dto) {
+    public ResponseEntity<?> createUser(@RequestBody @Valid UserRequestDTO dto) {
 
         User user = dto.toEntity();
         userRepository.save(user);
 
-        return "User created";
+        return ResponseEntity.status(HttpStatus.CREATED).body(user.toResponse());
     }
 }

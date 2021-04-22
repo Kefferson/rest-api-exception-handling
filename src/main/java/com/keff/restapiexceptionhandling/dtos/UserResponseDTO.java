@@ -1,28 +1,19 @@
 package com.keff.restapiexceptionhandling.dtos;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import com.keff.restapiexceptionhandling.entities.User;
-
-import javax.validation.constraints.Email;
-import javax.validation.constraints.NotBlank;
-import javax.validation.constraints.NotNull;
 import java.time.LocalDate;
 
-public class UserDTO {
+public class UserResponseDTO {
 
-    @NotBlank
     private String name;
-    @Email
-    @NotBlank
     private String email;
-    @NotBlank
     private String cpf;
-    @NotNull
-    @JsonFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthdate;
 
-    public User toEntity() {
-        return new User(name, email, cpf, birthdate);
+    public UserResponseDTO(String name, String email, String cpf, LocalDate birthdate) {
+        this.name = name;
+        this.email = email;
+        this.cpf = cpf;
+        this.birthdate = birthdate;
     }
 
     public String getName() {

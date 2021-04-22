@@ -1,5 +1,6 @@
 package com.keff.restapiexceptionhandling.entities;
 
+import com.keff.restapiexceptionhandling.dtos.UserResponseDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
@@ -22,6 +23,10 @@ public class User {
     private LocalDate birthdate;
     private @CreationTimestamp LocalDateTime createdAt;
     private @UpdateTimestamp LocalDateTime updatedAt;
+
+    public UserResponseDTO toResponse() {
+        return new UserResponseDTO(name, email, cpf, birthdate);
+    }
 
     @Deprecated
     public User() {
