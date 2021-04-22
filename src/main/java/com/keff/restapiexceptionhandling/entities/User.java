@@ -4,12 +4,10 @@ import com.keff.restapiexceptionhandling.dtos.UserResponseDTO;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 public class User {
@@ -23,6 +21,8 @@ public class User {
     private LocalDate birthdate;
     private @CreationTimestamp LocalDateTime createdAt;
     private @UpdateTimestamp LocalDateTime updatedAt;
+    @OneToMany(mappedBy = "user")
+    private List<Address> addresses;
 
     public UserResponseDTO toResponse() {
         return new UserResponseDTO(name, email, cpf, birthdate);

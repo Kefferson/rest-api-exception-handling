@@ -2,10 +2,7 @@ package com.keff.restapiexceptionhandling.entities;
 
 import com.keff.restapiexceptionhandling.dtos.AddressResponseDTO;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
+import javax.persistence.*;
 
 @Entity
 public class Address {
@@ -20,6 +17,8 @@ public class Address {
     private String city;
     private String state;
     private String zipCode;
+    @ManyToOne
+    private User user;
 
     public AddressResponseDTO toResponse() {
         return new AddressResponseDTO(street, number, district, addOn, city, state, zipCode);
@@ -29,7 +28,7 @@ public class Address {
     public Address() {
     }
 
-    public Address(String street, String number, String district, String addOn, String city, String state, String zipCode) {
+    public Address(String street, String number, String district, String addOn, String city, String state, String zipCode, User user) {
         this.street = street;
         this.number = number;
         this.district = district;
@@ -37,6 +36,7 @@ public class Address {
         this.city = city;
         this.state = state;
         this.zipCode = zipCode;
+        this.user = user;
     }
 
     public Long getId() {

@@ -3,6 +3,7 @@ package com.keff.restapiexceptionhandling.controllers;
 import com.keff.restapiexceptionhandling.dtos.AddressRequestDTO;
 import com.keff.restapiexceptionhandling.entities.Address;
 import com.keff.restapiexceptionhandling.repositories.AddressRepository;
+import com.keff.restapiexceptionhandling.repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,13 +19,15 @@ import javax.validation.Valid;
 public class AddressController {
 
     @Autowired
-    public AddressRepository repository;
+    public AddressRepository addressRepository;
+    @Autowired
+    public UserRepository userRepository;
 
     @PostMapping("/add")
     public ResponseEntity<?> addAddress(@RequestBody @Valid AddressRequestDTO dto) {
 
-        Address address = dto.toEntity();
-        repository.save(address);
+        Address address = dto.toEntity(userRepository);
+        addressRepository.save(address);
 
         return ResponseEntity.status(HttpStatus.CREATED).body(address.toResponse());
     }

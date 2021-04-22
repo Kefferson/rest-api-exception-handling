@@ -1,8 +1,13 @@
 package com.keff.restapiexceptionhandling.dtos;
 
 import com.keff.restapiexceptionhandling.entities.Address;
+import com.keff.restapiexceptionhandling.entities.User;
+import com.keff.restapiexceptionhandling.repositories.UserRepository;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import java.util.NoSuchElementException;
+import java.util.Optional;
 
 public class AddressRequestDTO {
 
@@ -19,9 +24,20 @@ public class AddressRequestDTO {
     private String state;
     @NotBlank
     private String zipCode;
+    @NotNull
+    private Long userId;
 
-    public Address toEntity() {
-        return new Address(street, number, district, addOn, city, state, zipCode);
+    public Address toEntity(UserRepository userRepository) {
+
+        Optional<User> possibleUser = userRepository.findById(userId);
+
+        if (possibleUser.isEmpty()) {
+            throw new NoSuchElementException("User not found.");
+        }
+
+        User user = possibleUser.get();
+
+        return new Address(street, number, district, addOn, city, state, zipCode, user);
     }
 
     public String getStreet() {
@@ -78,5 +94,13 @@ public class AddressRequestDTO {
 
     public void setZipCode(String zipCode) {
         this.zipCode = zipCode;
+    }
+
+    public Long getUserId() {
+        return userId;
+    }
+
+    public void setUserId(Long userId) {
+        this.userId = userId;
     }
 }
