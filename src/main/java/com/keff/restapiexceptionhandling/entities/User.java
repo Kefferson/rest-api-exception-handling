@@ -1,12 +1,14 @@
 package com.keff.restapiexceptionhandling.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Entity
 public class User {
@@ -16,48 +18,23 @@ public class User {
     private Long id;
     private String name;
     private String email;
-    @JsonFormat(pattern = "dd/MM/yyyy")
+    private String cpf;
     private LocalDate birthdate;
+    private @CreationTimestamp LocalDateTime createdAt;
+    private @UpdateTimestamp LocalDateTime updatedAt;
 
     @Deprecated
     public User() {
     }
 
-    public User(String name, String email, LocalDate birthdate) {
+    public User(String name, String email, String cpf, LocalDate birthdate) {
         this.name = name;
         this.email = email;
+        this.cpf = cpf;
         this.birthdate = birthdate;
     }
 
     public Long getId() {
         return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public LocalDate getBirthdate() {
-        return birthdate;
-    }
-
-    public void setBirthdate(LocalDate birthdate) {
-        this.birthdate = birthdate;
     }
 }
