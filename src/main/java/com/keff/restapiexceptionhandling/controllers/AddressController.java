@@ -37,10 +37,7 @@ public class AddressController {
             return ResponseEntity.ok().body("There are no addresses registered by this user.");
         }
 
-        List<AddressResponseDTO> responseList = addressList
-                .stream()
-                .map(Address::toResponse)
-                .collect(Collectors.toList());
+        List<AddressResponseDTO> responseList = addressService.toAddressResponseList(addressList);
 
         return ResponseEntity.ok().body(responseList);
     }
