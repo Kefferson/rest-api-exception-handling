@@ -1,6 +1,5 @@
 package com.keff.restapiexceptionhandling.exceptions;
 
-import org.springframework.context.MessageSource;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -9,18 +8,11 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 import java.util.Collections;
 import java.util.List;
-import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
 @RestControllerAdvice
 public class ControllerAdvice {
-
-    private final MessageSource messageSource;
-
-    public ControllerAdvice(MessageSource messageSource) {
-        this.messageSource = messageSource;
-    }
 
     @ExceptionHandler(NoSuchElementException.class)
     @ResponseStatus(HttpStatus.BAD_REQUEST)
@@ -36,7 +28,7 @@ public class ControllerAdvice {
         List<String> errors = e.getBindingResult()
                 .getFieldErrors()
                 .stream()
-                .map(error -> error.getField() + " " + messageSource.getMessage(error, Locale.getDefault()))
+                .map(error -> error.getField() + " : " + error.getDefaultMessage())
                 .collect(Collectors.toList());
 
         return new StandardException(errors);
