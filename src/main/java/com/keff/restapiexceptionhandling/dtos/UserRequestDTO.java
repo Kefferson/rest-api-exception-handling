@@ -2,6 +2,7 @@ package com.keff.restapiexceptionhandling.dtos;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.keff.restapiexceptionhandling.entities.User;
+import com.keff.restapiexceptionhandling.validation.UniqueValue;
 
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
@@ -14,8 +15,10 @@ public class UserRequestDTO {
     private String name;
     @Email
     @NotBlank
+    @UniqueValue(fieldName = "email", domainClass = User.class)
     private String email;
     @NotBlank
+    @UniqueValue(fieldName = "cpf", domainClass = User.class)
     private String cpf;
     @NotNull
     @JsonFormat(pattern = "dd/MM/yyyy")
